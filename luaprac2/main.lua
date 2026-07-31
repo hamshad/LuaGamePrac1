@@ -36,6 +36,18 @@ function love.update(dt)
     dy = dy + 1
   end
 
+  if love.keyboard.isDown("j") then
+    accel = 15000
+  else
+    accel = 2600
+  end
+
+  if love.keyboard.isDown("k") then
+    friction = 15
+  else
+    friction = 5
+  end
+
   -- Normalize
   local length = math.sqrt(dx * dx + dy * dy)
   if length ~= 0 then dx, dy = dx / length, dy / length end
