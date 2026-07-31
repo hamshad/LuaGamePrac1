@@ -18,27 +18,31 @@ end
 function love.update(dt)
   local accel = 2600
   local friction = 5
-  local ax, ay = 0, 0
+  local dx, dy = 0, 0
 
   if love.keyboard.isDown("d") then
-    ax = ax + accel
+    dx = dx + 1
   end
 
   if love.keyboard.isDown("a") then
-    ax = ax - accel
+    dx = dx - 1
   end
 
   if love.keyboard.isDown("w") then
-    ay = ay - accel
+    dy = dy - 1
   end
 
   if love.keyboard.isDown("s") then
-    ay = ay + accel
+    dy = dy + 1
   end
 
+  -- Normalize
+  local length = math.sqrt(dx * dx + dy * dy)
+  if length ~= 0 then dx, dy = dx / length, dy / length end
+
   -- Apply acceleration
-  circle.vx = circle.vx + ax * dt
-  circle.vy = circle.vy + ay * dt
+  circle.vx = circle.vx + dx * accel * dt
+  circle.vy = circle.vy + dy * accel * dt
 
   -- Apply friction
   circle.vx = circle.vx * (1 - friction * dt)
@@ -52,5 +56,5 @@ end
 function love.draw()
   love.graphics.circle('fill', circle.x, circle.y, circle.radius)
 
-  love.graphics.setBackgroundColor(0, 0.24, 0.1)
+  love.graphics.setBackgroundColor(0.08, 0.44, 1)
 end
